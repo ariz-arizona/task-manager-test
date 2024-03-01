@@ -8,19 +8,13 @@ import { theme } from 'ant-design-vue';
     algorithm: theme.defaultAlgorithm,
     token: {
       fontFamily: variables.font,
-      colorBgBase: variables.colorBgBase,
+      colorPrimary: variables.colorPrimary,
       colorError: variables.colorError,
       colorInfo: variables.colorInfo,
-      colorPrimary: variables.colorPrimary,
     }
   }">
     <div class="container">
-      <a-row class="header" align="middle">
-        <a-col span="4">
-          <Icon name="ri:todo-fill" class="header-logo"  />
-        </a-col>
-        <a-col span="20">MENU</a-col>
-      </a-row>
+      <Header />
       <div class="content">
         <NuxtPage />
       </div>
