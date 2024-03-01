@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "project_id": 1,
+        "title": "Написать тз для тестового",
+        "content": "Вот прямо тут давай уже",
+        "status": "pending"
+    },
+    {
+        "id": 2,
+        "project_id": 1,
+        "title": "Запустить nuxt",
+        "content": "npx nuxi @latest",
+        "status": "success"
+    },
+    {
+        "id": 3,
+        "project_id": 1,
+        "title": "Хедер",
+        "content": "Контент, меню, роутинг",
+        "status": "success"
+    },
+    {
+        "id": 4,
+        "project_id": 1,
+        "title": "Вывод задач на главной",
+        "content": "Сначала получить json, потом сохранить его в local storage, потому попутно обработать. Использовать pinia",
+        "status": "pending"
+    },
+    {
+        "id": 5,
+        "project_id": 1,
+        "title": "Роутинг",
+        "content": "почитать про vue router",
+        "status": "error"
+    },
+    {
+        "id": 10,
+        "project_id": 2,
+        "title": "дорога",
+        "content": "автобус до жд + троллейбус",
+        "status": "pending"
+    },
+    {
+        "id": 11,
+        "project_id": 2,
+        "title": "алушта",
+        "content": "море, столовая, домой. Взять бульдозер!",
+        "status": "pending"
+    },
+    {
+        "id": 12,
+        "project_id": 2,
+        "title": "домой",
+        "content": "Лучше до 16, чтобы не как в прошлый раз!!!!",
+        "status": "pending"
+    }
+]
