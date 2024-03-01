@@ -1,5 +1,5 @@
-import projects from '../../data/projects.json'
-import { ApiResponse } from './api'
+import projects from '../data/projects.json'
+import { ApiResponse } from '../../types/api'
 
 export default defineEventHandler((event): ApiResponse => {
     const q = getQuery(event)

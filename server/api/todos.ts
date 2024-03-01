@@ -1,5 +1,5 @@
-import todos from '../../data/todos.json'
-import { ApiResponse } from './api'
+import todos from '../data/todos.json'
+import { ApiResponse } from '../../types/api'
 
 export default defineEventHandler((event): ApiResponse => {
     const q = getQuery(event)

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import('assets/main.scss')
+import 'assets/main.scss'
 import variables from 'assets/variables.module.scss'
 import { theme } from 'ant-design-vue';
 </script>
