@@ -2,7 +2,8 @@
 export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
-    '@ant-design-vue/nuxt'
+    '@ant-design-vue/nuxt',
+    'nuxt-icon'
   ],
   devtools: { enabled: true }
 })

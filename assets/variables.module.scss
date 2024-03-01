@@ -1,0 +1,13 @@
+$font: 'https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap';
+$colorBgBase: #F6F5F5;
+$colorError: #EE99C2;
+$colorInfo: #FFE3CA;
+$colorPrimary: #0C359E;
+
+:export {
+    font: $font;
+    color_base: $colorBgBase;
+    colorError: $colorError;
+    colorInfo: $colorInfo;
+    colorPrimary: $colorPrimary
+}

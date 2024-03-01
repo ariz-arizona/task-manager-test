@@ -1,6 +1,24 @@
 @import url(../node_modules/ant-design-vue/dist/reset.css);
+@import 'variables.module';
+
+body {
+    font-family: $font;
+}
 
 .container {
     max-width: 1270px;
     margin: 0 auto;
+}
+
+.header {
+    margin: 2rem;
+
+    &-logo {
+        font-size: 3rem;
+        color: $colorPrimary;
+        transition: color 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
+        &:hover {
+            color: $colorInfo;
+        }
+    }
 }
