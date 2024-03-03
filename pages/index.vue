@@ -1,10 +1,12 @@
 <script setup lang="ts">
 const todos = useTodoStore()
 const route = useRoute()
-onMounted(async () => {
-    await todos.fetch(!!route.query.page_error)
-})
+
+const todosFetch = () => todos.fetch(!!route.query.page_error)
+onMounted(() => { todosFetch() })
+watch(() => route.fullPath, () => { todosFetch() })
 </script>
+
 <template>
     <a-row align="middle" style="min-height: 200px;" v-if="todos.status === 'loading'">
         <a-col span="24" style="text-align: center;">
@@ -16,8 +18,8 @@ onMounted(async () => {
             <a-alert type="error" :message="todos.error" />
         </a-col>
     </a-row>
-    <a-row :gutter="24" v-else>
-        <a-col :span="8" v-for="item in todos.projects">
+    <a-row :gutter="24" v-else-if="todos.projects.length">
+        <a-col :xs="24" :sm="12" :md="8" v-for="item in  todos.projects ">
             <a-card :title="`# ${item.id}`">
                 <template #extra>
                     <NuxtLink :to="`/project/${item.id}`">Подробнее</NuxtLink>

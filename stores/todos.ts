@@ -19,7 +19,7 @@ export const useTodoStore = defineStore('todoStore', {
     actions: {
         async fetch(error = false) {
             this.status = 'loading'
-            await new Promise(f => setTimeout(f, 3000));
+            await new Promise(f => setTimeout(f, 1500));
 
             const query: todoQuery = {}
             if (error) query.error = 'test error'
