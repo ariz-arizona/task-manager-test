@@ -52,7 +52,7 @@ const formLoading = ref<boolean>(false)
 const onFormFinish = async (f: FormState) => {
     let type: 'update' | 'create' | null = null
     if (thisTodo.value && todoId) type = 'update'
-    if (projectId || !todoId) type = 'create'
+    if (projectId && !todoId) type = 'create'
     if (type) {
         formLoading.value = true
         if (type === 'update' && thisTodo.value) {

@@ -26,11 +26,23 @@ const thisTodo = computed(() => {
     </a-row>
     <a-row :gutter="[24, 24]" v-else>
         <a-col span="24">
-            <a-badge-ribbon :text="thisTodo.status" :color="ribbonColor[thisTodo.status]">
-                <a-card :title="thisTodo.title">
-                    {{ thisTodo.content }}
-                </a-card>
-            </a-badge-ribbon>
+            <a-space direction="vertical" style="width: 100%;">
+                <a-breadcrumb>
+                    <a-breadcrumb-item>
+                        <NuxtLink :to="`/project/${projectId}`">{{ todos.projects.find(el => el.id === projectId)?.name
+                            }}
+                        </NuxtLink>
+                    </a-breadcrumb-item>
+                    <a-breadcrumb-item>
+                        Card #{{ todoId }}
+                    </a-breadcrumb-item>
+                </a-breadcrumb>
+                <a-badge-ribbon :text="thisTodo.status" :color="ribbonColor[thisTodo.status]">
+                    <a-card :title="thisTodo.title">
+                        {{ thisTodo.content }}
+                    </a-card>
+                </a-badge-ribbon>
+            </a-space>
         </a-col>
         <a-col span="24">
             <a-card>

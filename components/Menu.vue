@@ -5,40 +5,33 @@ const todos = useTodoStore()
 const route = useRoute()
 const error = useError()
 
-const items = computed(() => <MenuProps['items']>[
-    {
-        key: '/',
-        label: 'Главная',
-        children: [
-            {
-                key: '/',
-                label: 'Главная с данными',
-            },
-            {
-                key: '/?page_error=1',
-                label: 'Главная с ошибкой получения страниц',
-            },
-        ],
-    },
-    {
-        key: '/project',
-        label: 'Проекты',
-        children: todos.projects.length ? todos.projects.map(el => {
-            return {
-                key: `/project/${el.id}`,
-                label: el.name
-            }
-        }) : undefined
-    },
-    {
-        key: '/test',
-        label: 'Тестовая страница',
-    },
-    {
-        key: '/technical',
-        label: 'Техническое задание',
-    }
-])
+const items = computed(() => {
+    const menu = <MenuProps['items']>[
+        {
+            key: '/',
+            label: 'Главная',
+            children: [
+                {
+                    key: '/',
+                    label: 'Главная с данными',
+                },
+                {
+                    key: '/?page_error=1',
+                    label: 'Главная с ошибкой получения страниц',
+                },
+            ],
+        },
+        {
+            key: '/test',
+            label: 'Тестовая страница',
+        },
+        {
+            key: '/technical',
+            label: 'Техническое задание',
+        }
+    ]
+    return menu
+})
 
 const handleMenuClick: MenuProps['onClick'] = (e: ItemType) => {
     if (e && e.key && e.key !== route.fullPath) {

@@ -84,7 +84,7 @@ export const useTodoStore = defineStore('todoStore', {
             if (error) query.error = 'test error'
 
             let localProjects = this.getlocal('projects', error)
-            const projects = localProjects || await $fetch('/api/projects', { query })
+            const projects = localProjects ?? await $fetch('/api/projects', { query })
 
             if (projects?.status === 'success') {
                 this.projects = projects.data
@@ -97,7 +97,7 @@ export const useTodoStore = defineStore('todoStore', {
             }
 
             let localTodos = this.getlocal('todos')
-            const todos = localTodos || await $fetch('/api/todos')
+            const todos = localTodos ?? await $fetch('/api/todos')
 
             if (todos?.status === 'success') {
                 this.todos = todos?.data
@@ -114,7 +114,7 @@ export const useTodoStore = defineStore('todoStore', {
                 })
             }
 
-            this.updateLocal()
+            if (!this.error) this.updateLocal()
         }
     }
 })
