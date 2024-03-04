@@ -9,16 +9,8 @@ watch(() => route.fullPath, () => { todosFetch() })
 </script>
 
 <template>
-    <a-row align="middle" style="min-height: 200px;" v-if="todos.status === 'loading'">
-        <a-col span="24" style="text-align: center;">
-            <a-spin />
-        </a-col>
-    </a-row>
-    <a-row v-else-if="todos.status === 'error'">
-        <a-col span="24">
-            <a-alert type="error" :message="todos.error" />
-        </a-col>
-    </a-row>
+    <ProjectLoader v-if="todos.status === 'loading'" />
+    <ProjectError v-else-if="todos.status === 'error'" :msg="todos.error || 'ERR'" />
     <a-row :gutter="24" v-else-if="todos.projects.length">
         <a-col :xs="24" :sm="12" :md="8" v-for="item in  todos.projects ">
             <a-card :title="`# ${item.id}`">
