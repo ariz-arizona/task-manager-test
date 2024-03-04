@@ -1,7 +1,7 @@
 import type { TodoStatus } from "~/types/api"
 
 type TodoItem = {
-    id: number,
+    id: number | null,
     project_id: number,
     title: string,
     content: string,
@@ -50,6 +50,12 @@ export const useTodoStore = defineStore('todoStore', {
             }
             return false
         },
+        async createItem(data: TodoItem) {
+            await new Promise(f => setTimeout(f, 1500));
+            const id = Math.max(...this.todos.map(el => el.id ?? 0))
+            data.id = id + 1
+            this.todos.push(data)
+        },
         clearLocalStorage() {
             localStorage.removeItem('projects')
             localStorage.removeItem('todos')
@@ -66,7 +72,7 @@ export const useTodoStore = defineStore('todoStore', {
             } catch (error) { }
             return localResponse
         },
-        updateLocal(){
+        updateLocal() {
             localStorage.setItem('todos', JSON.stringify(this.todos))
             localStorage.setItem('projects', JSON.stringify(this.projects))
         },

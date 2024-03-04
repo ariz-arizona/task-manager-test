@@ -40,7 +40,7 @@ const thisTodo = computed(() => {
                         <a-switch v-model:checked="isEdit" />
                     </a-typography-title>
                 </template>
-                <TodoEdit v-if="isEdit" />
+                <TodoEdit :project-id="projectId" :todo-id="todoId" v-if="isEdit" />
             </a-card>
         </a-col>
     </a-row>

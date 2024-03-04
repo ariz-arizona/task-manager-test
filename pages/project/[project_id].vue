@@ -7,6 +7,8 @@ const projectId = parseInt(Array.isArray(route.params.project_id) ? route.params
 const todosProject = computed(() => {
     return todos.todos.filter(el => el.project_id === projectId)
 })
+
+const isEdit = ref<boolean>(false)
 </script>
 
 <template>
@@ -34,9 +36,15 @@ const todosProject = computed(() => {
             </a-badge-ribbon>
         </a-col>
         <a-col span="24">
-            <a-form>
-
-            </a-form>
+            <a-card>
+                <template #title>
+                    <a-typography-title :level="5">
+                        Добавить todo
+                        <a-switch v-model:checked="isEdit" />
+                    </a-typography-title>
+                </template>
+                <TodoEdit :project-id="projectId" v-if="isEdit" />
+            </a-card>
         </a-col>
     </a-row>
 </template>
