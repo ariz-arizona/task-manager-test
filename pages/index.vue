@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import variables from 'assets/variables.module.scss'
 const todos = useTodoStore()
 const route = useRoute()
 
@@ -24,7 +25,15 @@ watch(() => route.fullPath, () => { todosFetch() })
                 <template #extra>
                     <NuxtLink :to="`/project/${item.id}`">Подробнее</NuxtLink>
                 </template>
-                {{ item.name }}
+                <a-space direction="vertical">
+                    {{ item.name }}
+                    <a-space v-if="typeof item.todos_count === 'object'">
+                        <a-badge :count="item.todos_count.pending" :color="variables.colorGray" />
+                        <a-badge :count="item.todos_count.error" :color="variables.colorError" />
+                        <a-badge :count="item.todos_count.success" :color="variables.colorInfo" />
+                    </a-space>
+                    <a-badge v-else :count="item.todos_count" :color="variables.colorInfo" />
+                </a-space>
             </a-card>
         </a-col>
     </a-row>
