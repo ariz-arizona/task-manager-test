@@ -1,18 +1,20 @@
 import type { TodoStatus } from "~/types/api"
 
-interface todoState {
-    projects: {
-        id: number,
-        name: string,
-        todos_count?: number | { pending: number, success: number, error: number }
-    }[],
-    todos: {
-        id: number,
-        project_id: number,
-        title: string,
-        content: string,
-        status: TodoStatus
-    }[],
+type TodoItem = {
+    id: number,
+    project_id: number,
+    title: string,
+    content: string,
+    status: TodoStatus
+}
+type ProjectItem = {
+    id: number,
+    name: string,
+    todos_count?: number | { pending: number, success: number, error: number }
+}
+interface TodoState {
+    projects: ProjectItem[],
+    todos: TodoItem[],
     status: 'idle' | 'loading' | 'error' | 'success',
     error: string | null
 }
@@ -21,13 +23,24 @@ type todoQuery = {
     error?: string
 }
 export const useTodoStore = defineStore('todoStore', {
-    state: (): todoState => ({
+    state: (): TodoState => ({
         projects: [],
         todos: [],
         status: 'idle',
         error: null
     }),
     actions: {
+        update(data: TodoItem) {
+            const item = this.todos.find(el => el.project_id === data.project_id && el.id === data.id)
+            if (item) {
+                this.todos = this.todos.map(el => {
+                    if (el.project_id === data.project_id && el.id === data.id) {
+                        el = Object.assign(data, el)
+                    }
+                    return el
+                })
+            }
+        },
         clearLocalStorage() {
             localStorage.removeItem('projects')
             localStorage.removeItem('todos')

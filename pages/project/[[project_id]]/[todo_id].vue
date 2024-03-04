@@ -1,30 +1,39 @@
 <script setup lang="ts">
+import { ribbonColor } from '~/components/RibbonColor.vue';
 import type { TodoStatus } from '~/types/api';
 
 const todos = useTodoStore()
 const route = useRoute()
 
-const projectId = parseInt(route.params.project_id[0] ?? route.params.project_id)
-const todoId = parseInt(route.params.todo_id[0] ?? route.params.todo_id)
-const thisTodo = computed(() => {
-    return todos.todos.filter(el => el.project_id === projectId && el.id === todoId)[0]
-})
+const projectId = parseInt(Array.isArray(route.params.project_id) ? route.params.project_id[0] : route.params.project_id)
+const todoId = parseInt(Array.isArray(route.params.todo_id) ? route.params.todo_id[0] : route.params.todo_id)
 
 const isEdit = ref<boolean>(false)
 
 interface FormState {
-    title: string;
-    content: string;
-    status: TodoStatus;
+    title: string | undefined;
+    content: string | undefined;
+    status: TodoStatus | undefined;
 }
 const formState = reactive<FormState>({
-    title: thisTodo.value.title,
-    content: thisTodo.value.content,
-    status: thisTodo.value.status,
+    title: '',
+    content: '',
+    status: 'pending',
 });
+
+const thisTodo = computed(() => {
+    const item = todos.todos.find(el => el.project_id === projectId && el.id === todoId)
+    formState.title = item?.title
+    formState.content = item?.content
+    formState.status = item?.status
+    return item
+})
 
 const isFormChanged = computed(() => {
     const pairs = []
+    if (!thisTodo.value) {
+        return true
+    }
     for (const key in formState) {
         pairs.push([
             formState[key as keyof typeof formState],
@@ -34,8 +43,11 @@ const isFormChanged = computed(() => {
     return pairs.every((el) => el[0] === el[1])
 })
 
-const onFormFinish = (f) => {
-    console.log(f)
+const onFormFinish = (f: FormState) => {
+    if (thisTodo.value) {
+        const data = Object.assign(thisTodo.value, f)
+        todos.update(data)
+    }
 }
 </script>
 
@@ -50,9 +62,11 @@ const onFormFinish = (f) => {
     </a-row>
     <a-row :gutter="[24, 24]" v-else>
         <a-col span="24">
-            <a-card :title="thisTodo.title">
-                {{ thisTodo.content }}
-            </a-card>
+            <a-badge-ribbon :text="thisTodo.status" :color="ribbonColor[thisTodo.status]">
+                <a-card :title="thisTodo.title">
+                    {{ thisTodo.content }}
+                </a-card>
+            </a-badge-ribbon>
         </a-col>
         <a-col span="24">
             <a-card>

@@ -1,17 +1,12 @@
 <script setup lang="ts">
-import variables from 'assets/variables.module.scss'
+import { ribbonColor } from '~/components/RibbonColor.vue';
 const todos = useTodoStore()
 const route = useRoute()
 
-const projectId = parseInt(route.params.project_id[0] ?? route.params.project_id)
+const projectId = parseInt(Array.isArray(route.params.project_id) ? route.params.project_id[0] : route.params.project_id)
 const todosProject = computed(() => {
     return todos.todos.filter(el => el.project_id === projectId)
 })
-const ribbonColor = {
-    success: variables.colorInfo,
-    pending: variables.colorGray,
-    error: variables.colorError
-}
 </script>
 
 <template>
@@ -29,9 +24,11 @@ const ribbonColor = {
                 <a-card :title="`#${item.id} ${item.title}`">
                     <a-space direction="vertical">
                         {{ item.content }}
-                        <a-button>
-                            <NuxtLink :to="`/project/${projectId}/${item.id}`">Редактировать</NuxtLink>
-                        </a-button>
+                        <NuxtLink :to="`/project/${projectId}/${item.id}`">
+                            <a-button>
+                                Редактировать
+                            </a-button>
+                        </NuxtLink>
                     </a-space>
                 </a-card>
             </a-badge-ribbon>
