@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ribbonColor } from '~/components/RibbonColor.vue';
+import { ribbonColor } from '~/components/RibbonColor';
 const todos = useTodoStore()
 const route = useRoute()
 

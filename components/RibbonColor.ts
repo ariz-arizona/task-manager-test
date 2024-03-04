@@ -1,4 +1,3 @@
-<script lang="ts">
 import variables from 'assets/variables.module.scss'
 
 export const ribbonColor = {
@@ -6,4 +5,3 @@ export const ribbonColor = {
     pending: variables.colorGray,
     error: variables.colorError
 }
-</script>
