@@ -1,3 +1,5 @@
+import type { TodoStatus } from "~/types/api"
+
 interface todoState {
     projects: {
         id: number,
@@ -9,7 +11,7 @@ interface todoState {
         project_id: number,
         title: string,
         content: string,
-        status: 'pending' | 'success' | 'error'
+        status: TodoStatus
     }[],
     status: 'idle' | 'loading' | 'error' | 'success',
     error: string | null
@@ -26,7 +28,7 @@ export const useTodoStore = defineStore('todoStore', {
         error: null
     }),
     actions: {
-        clearLocalStorage(){
+        clearLocalStorage() {
             localStorage.removeItem('projects')
             localStorage.removeItem('todos')
             this.fetch()

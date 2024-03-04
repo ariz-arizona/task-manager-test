@@ -9,3 +9,5 @@ type ApiResponseError = {
     error: string
 }
 export type ApiResponse = ApiResponseSuccess | ApiResponseError
+
+export type TodoStatus = 'pending' | 'success' | 'error'
