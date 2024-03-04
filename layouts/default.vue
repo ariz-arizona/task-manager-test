@@ -2,6 +2,11 @@
 import 'assets/main.scss'
 import variables from 'assets/variables.module.scss'
 import { theme } from 'ant-design-vue';
+
+const todos = useTodoStore()
+const route = useRoute()
+
+onMounted(() => { todos.fetch(!!route.query.page_error) })
 </script>
 
 <template>

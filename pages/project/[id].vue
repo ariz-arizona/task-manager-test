@@ -3,13 +3,6 @@ import variables from 'assets/variables.module.scss'
 const todos = useTodoStore()
 const route = useRoute()
 
-const todosFetch = () => {
-    if (todos.status === 'idle') {
-        todos.fetch(!!route.query.page_error)
-    }
-}
-onMounted(() => { todosFetch() })
-watch(() => route.fullPath, () => { todosFetch() })
 const projectId = parseInt(route.params.id[0] ?? route.params.id)
 const todosProject = computed(() => {
     return todos.todos.filter(el => el.project_id === projectId)

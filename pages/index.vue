@@ -4,7 +4,6 @@ const todos = useTodoStore()
 const route = useRoute()
 
 const todosFetch = () => todos.fetch(!!route.query.page_error)
-onMounted(() => { todosFetch() })
 watch(() => route.fullPath, () => { todosFetch() })
 </script>
 

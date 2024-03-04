@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import type { MenuProps, ItemType } from 'ant-design-vue';
 
-const items = <MenuProps['items']>[
+const todos = useTodoStore()
+const route = useRoute()
+const error = useError()
+
+const items = computed(() => <MenuProps['items']>[
     {
         key: '/',
         label: 'Главная',
@@ -17,6 +21,16 @@ const items = <MenuProps['items']>[
         ],
     },
     {
+        key: '/project',
+        label: 'Проекты',
+        children: todos.projects.length ? todos.projects.map(el => {
+            return {
+                key: `/project/${el.id}`,
+                label: el.name
+            }
+        }) : undefined
+    },
+    {
         key: '/test',
         label: 'Тестовая страница',
     },
@@ -24,9 +38,7 @@ const items = <MenuProps['items']>[
         key: '/technical',
         label: 'Техническое задание',
     }
-]
-const route = useRoute()
-const error = useError()
+])
 
 const handleMenuClick: MenuProps['onClick'] = (e: ItemType) => {
     if (e && e.key && e.key !== route.fullPath) {
