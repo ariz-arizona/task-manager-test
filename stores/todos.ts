@@ -30,23 +30,32 @@ export const useTodoStore = defineStore('todoStore', {
         error: null
     }),
     actions: {
-        update(data: TodoItem) {
-            const item = this.todos.find(el => el.project_id === data.project_id && el.id === data.id)
-            if (item) {
-                this.todos = this.todos.map(el => {
-                    if (el.project_id === data.project_id && el.id === data.id) {
-                        el = Object.assign(data, el)
-                    }
-                    return el
-                })
+        async deleteItem(data: TodoItem) {
+            await new Promise(f => setTimeout(f, 1500));
+            const itemId = this.todos.findIndex(el => el.project_id === data.project_id && el.id === data.id)
+            if (itemId !== -1) {
+                this.todos.splice(itemId, 1)
+                this.updateLocal()
+                return true
             }
+            return false
+        },
+        async updateItem(data: TodoItem) {
+            await new Promise(f => setTimeout(f, 1500));
+            const itemId = this.todos.findIndex(el => el.project_id === data.project_id && el.id === data.id)
+            if (itemId !== -1) {
+                this.todos.splice(itemId, 1, data)
+                this.updateLocal()
+                return true
+            }
+            return false
         },
         clearLocalStorage() {
             localStorage.removeItem('projects')
             localStorage.removeItem('todos')
             this.fetch()
         },
-        local(type: 'projects' | 'todos', error = false) {
+        getlocal(type: 'projects' | 'todos', error = false) {
             let localResponse = null
             try {
                 const lp = localStorage.getItem(type)
@@ -57,6 +66,10 @@ export const useTodoStore = defineStore('todoStore', {
             } catch (error) { }
             return localResponse
         },
+        updateLocal(){
+            localStorage.setItem('todos', JSON.stringify(this.todos))
+            localStorage.setItem('projects', JSON.stringify(this.projects))
+        },
         async fetch(error = false) {
             this.status = 'loading'
             await new Promise(f => setTimeout(f, 1500));
@@ -64,7 +77,7 @@ export const useTodoStore = defineStore('todoStore', {
             const query: todoQuery = {}
             if (error) query.error = 'test error'
 
-            let localProjects = this.local('projects', error)
+            let localProjects = this.getlocal('projects', error)
             const projects = localProjects || await $fetch('/api/projects', { query })
 
             if (projects?.status === 'success') {
@@ -77,7 +90,7 @@ export const useTodoStore = defineStore('todoStore', {
                 this.error = projects.error || 'ERR'
             }
 
-            let localTodos = this.local('todos')
+            let localTodos = this.getlocal('todos')
             const todos = localTodos || await $fetch('/api/todos')
 
             if (todos?.status === 'success') {
@@ -95,8 +108,7 @@ export const useTodoStore = defineStore('todoStore', {
                 })
             }
 
-            localStorage.setItem('todos', JSON.stringify(this.todos))
-            localStorage.setItem('projects', JSON.stringify(this.projects))
+            this.updateLocal()
         }
     }
 })

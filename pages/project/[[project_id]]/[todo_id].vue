@@ -43,12 +43,25 @@ const isFormChanged = computed(() => {
     return pairs.every((el) => el[0] === el[1])
 })
 
-const onFormFinish = (f: FormState) => {
+const formLoading = ref<boolean>(false)
+
+const onFormFinish = async (f: FormState) => {
     if (thisTodo.value) {
+        formLoading.value = true
         const data = Object.assign(thisTodo.value, f)
-        todos.update(data)
+        await todos.updateItem(data)
+        formLoading.value = false
     }
 }
+
+const deleteTodo = async () => {
+    if (thisTodo.value) {
+        formLoading.value = true
+        await todos.deleteItem(thisTodo.value)
+        navigateTo(`/project/${projectId}`)
+    }
+}
+
 </script>
 
 <template>
@@ -76,8 +89,8 @@ const onFormFinish = (f: FormState) => {
                         <a-switch v-model:checked="isEdit" />
                     </a-typography-title>
                 </template>
-                <a-form :model="formState" @finish="onFormFinish" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }"
-                    v-if="isEdit">
+                <a-form :model="formState" :disabled="!thisTodo || formLoading" @finish="onFormFinish" :label-col="{ span: 8 }"
+                    :wrapper-col="{ span: 16 }" v-if="isEdit">
                     <a-form-item label="Название" name="title" :rules="{ required: true }">
                         <a-input v-model:value="formState.title" />
                     </a-form-item>
@@ -90,7 +103,10 @@ const onFormFinish = (f: FormState) => {
                             v-model:value="formState.status" />
                     </a-form-item>
                     <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-                        <a-button type="primary" html-type="submit" :disabled="isFormChanged">Сохранить</a-button>
+                        <a-space>
+                            <a-button type="primary" html-type="submit" :disabled="isFormChanged">Сохранить</a-button>
+                            <a-button @click="deleteTodo">Удалить</a-button>
+                        </a-space>
                     </a-form-item>
                 </a-form>
             </a-card>
