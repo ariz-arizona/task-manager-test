@@ -3,7 +3,7 @@ import variables from 'assets/variables.module.scss'
 const todos = useTodoStore()
 const route = useRoute()
 
-const projectId = parseInt(route.params.id[0] ?? route.params.id)
+const projectId = parseInt(route.params.project_id[0] ?? route.params.project_id)
 const todosProject = computed(() => {
     return todos.todos.filter(el => el.project_id === projectId)
 })
@@ -17,23 +17,28 @@ const ribbonColor = {
 <template>
     <ProjectLoader v-if="todos.status === 'loading'" />
     <ProjectError v-else-if="todos.status === 'error'" :msg="todos.error || 'ERR'" />
-    <ProjectError v-else-if="!todos.projects.find(el => el.id === projectId)" msg="No project" />
+    <ProjectError v-else-if="!todos.projects.find(el => el.id === projectId)" msg="Такой проект не найден" />
     <a-row v-else-if="!todosProject.length">
         <a-col span="24">
-            <a-alert message="No Tasks found" />
+            <a-alert message="Задач в этом проекте не найдено" />
         </a-col>
     </a-row>
     <a-row :gutter="[24, 24]" v-else>
         <a-col span="12" v-for="item in todosProject">
             <a-badge-ribbon :text="item.status" :color="ribbonColor[item.status]">
                 <a-card :title="`#${item.id} ${item.title}`">
-                    {{ item.content }}
+                    <a-space direction="vertical">
+                        {{ item.content }}
+                        <a-button>
+                            <NuxtLink :to="`/project/${projectId}/${item.id}`">Редактировать</NuxtLink>
+                        </a-button>
+                    </a-space>
                 </a-card>
             </a-badge-ribbon>
         </a-col>
         <a-col span="24">
             <a-form>
-                
+
             </a-form>
         </a-col>
     </a-row>
