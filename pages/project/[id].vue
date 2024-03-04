@@ -31,5 +31,10 @@ const ribbonColor = {
                 </a-card>
             </a-badge-ribbon>
         </a-col>
+        <a-col span="24">
+            <a-form>
+                
+            </a-form>
+        </a-col>
     </a-row>
 </template>
