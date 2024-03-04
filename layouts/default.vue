@@ -30,10 +30,10 @@ onMounted(() => { todos.fetch(!!route.query.page_error) })
                     <a-col span="24">
                         <Header />
                     </a-col>
-                    <a-col span="6">
+                    <a-col :xs="24" :md="8" :lg="6">
                         <Menu />
                     </a-col>
-                    <a-col span="18">
+                    <a-col :xs="24" :md="16" :lg="18">
                         <div class="content">
                             <slot />
                         </div>
