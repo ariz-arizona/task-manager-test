@@ -7,7 +7,7 @@ const route = useRoute()
 const projectId = parseInt(Array.isArray(route.params.project_id) ? route.params.project_id[0] : route.params.project_id)
 const todoId = parseInt(Array.isArray(route.params.todo_id) ? route.params.todo_id[0] : route.params.todo_id)
 
-const isEdit = ref<boolean>(false)
+const isEdit = ref<boolean>(true)
 
 const thisTodo = computed(() => {
     const item = todos.todos.find(el => el.project_id === projectId && el.id === todoId)
@@ -28,6 +28,9 @@ const thisTodo = computed(() => {
         <a-col span="24">
             <a-space direction="vertical" style="width: 100%;">
                 <a-breadcrumb>
+                    <a-breadcrumb-item>
+                        <NuxtLink to="/">Главная</NuxtLink>
+                    </a-breadcrumb-item>
                     <a-breadcrumb-item>
                         <NuxtLink :to="`/project/${projectId}`">{{ todos.projects.find(el => el.id === projectId)?.name
                             }}

@@ -68,7 +68,7 @@ export const useTodoStore = defineStore('todoStore', {
                 let localData = null
                 if (lp) localData = JSON.parse(lp)
                 if (localData) localResponse = { status: 'success', data: localData }
-                if (localData && error) localResponse = { status: 'error', error: 'Local error' }
+                if (localData && error) localResponse = { status: 'error', error: 'Ошибка получения данных из локального хранилища' }
             } catch (error) { }
             return localResponse
         },

@@ -9,18 +9,34 @@ const todosProject = computed(() => {
 })
 
 const isEdit = ref<boolean>(false)
+
+const info = 'Это страница проекта. Вы можете создать новую задачу или перейти в редактирование задачи.'
 </script>
 
 <template>
     <ProjectLoader v-if="todos.status === 'loading'" />
     <ProjectError v-else-if="todos.status === 'error'" :msg="todos.error || 'ERR'" />
     <ProjectError v-else-if="!todos.projects.find(el => el.id === projectId)" msg="Такой проект не найден" />
-    <a-row v-else-if="!todosProject.length">
+    <a-row :gutter="[24, 24]" v-else>
         <a-col span="24">
+            <a-breadcrumb>
+                <a-breadcrumb-item>
+                    <NuxtLink to="/">Главная</NuxtLink>
+                </a-breadcrumb-item>
+                <a-breadcrumb-item>
+                    {{ todos.projects.find(el => el.id === projectId)?.name }}
+                </a-breadcrumb-item>
+            </a-breadcrumb>
+        </a-col>
+        <a-col span="24" level="1">
+            <a-typography-title>
+                {{ todos.projects.find(el => el.id === projectId)?.name }}
+            </a-typography-title>
+            <a-alert type="info" :message="info" />
+        </a-col>
+        <a-col span="24" v-if="!todosProject.length">
             <a-alert message="Задач в этом проекте не найдено" />
         </a-col>
-    </a-row>
-    <a-row :gutter="[24, 24]" v-else>
         <a-col span="12" v-for="item in todosProject">
             <a-badge-ribbon :text="item.status" :color="ribbonColor[item.status]">
                 <a-card :title="`#${item.id} ${item.title}`">

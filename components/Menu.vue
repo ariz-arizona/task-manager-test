@@ -17,24 +17,25 @@ const items = computed(() => {
                 },
                 {
                     key: '/?page_error=1',
-                    label: 'Главная с ошибкой получения страниц',
+                    label: 'Ошибка получения данных',
                 },
             ],
         },
         {
             key: '/test',
-            label: 'Тестовая страница',
+            label: 'Тестовая страница (проверка 404)',
         },
         {
             key: '/technical',
             label: 'Техническое задание',
+            icon: false
         }
     ]
     return menu
 })
 
 const handleMenuClick: MenuProps['onClick'] = (e: ItemType) => {
-    if (e && e.key && e.key !== route.fullPath) {
+    if (e && e.key) {
         navigateTo(e.key.toString())
     }
 }
@@ -42,8 +43,10 @@ const handleMenuClick: MenuProps['onClick'] = (e: ItemType) => {
 
 <template>
     <div>
-        <a-menu v-bind:items="items" mode="inline" :selected-keys="error?.message ? [] : [route.fullPath]"
-            :open-keys="[route.path]" @click="handleMenuClick" :force-sub-menu-render="true">
-        </a-menu>
+        <ClientOnly>
+            <a-menu v-bind:items="items" mode="inline" :selected-keys="error?.message ? [] : [route.fullPath]"
+                :open-keys="[route.path]" @click="handleMenuClick" :force-sub-menu-render="true">
+            </a-menu>
+        </ClientOnly>
     </div>
 </template>
